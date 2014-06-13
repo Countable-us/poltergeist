@@ -60,11 +60,12 @@ module Capybara::Poltergeist
 
       process_options = {}
       process_options[:pgroup] = true unless Capybara::Poltergeist.windows?
+      process_options[:out] = @write_io.fileno
 
-      redirect_stdout do
+      #redirect_stdout do
         @pid = Process.spawn(*command.map(&:to_s), process_options)
         ObjectSpace.define_finalizer(self, self.class.process_killer(@pid))
-      end
+      #end
     end
 
     def stop
